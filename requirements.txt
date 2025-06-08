@@ -1,0 +1,8 @@
+#requirements.txt
+pandas
+matplotlib
+seaborn
+
+#How to Use It
+#Users can install all required packages by running:
+pip install -r requirements.txt
