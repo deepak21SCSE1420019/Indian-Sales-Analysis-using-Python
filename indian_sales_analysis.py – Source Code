@@ -1,0 +1,29 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import os
+
+# Load data
+df = pd.read_csv("data/indian_sales_data.csv", parse_dates=['Date'])
+
+# Optional Cleaning
+df.dropna(inplace=True)
+
+# Create a new column for Month-Year
+df['Month'] = df['Date'].dt.to_period('M')
+
+# Aggregate sales per month-region
+monthly_sales = df.groupby(['Month', 'Region'])['Sales'].sum().unstack()
+
+# Create images folder if not exists
+os.makedirs("images", exist_ok=True)
+
+# Heatmap
+plt.figure(figsize=(12, 6))
+sns.heatmap(monthly_sales, annot=True, fmt=".0f", cmap="YlGnBu")
+plt.title("Monthly Sales Trend by Region")
+plt.ylabel("Month")
+plt.xlabel("Region")
+plt.tight_layout()
+plt.savefig("images/sales_trend_heatmap.png")
+plt.show()
